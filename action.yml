@@ -1,0 +1,36 @@
+name: 'The Network Tools — Domain Security & SSL CI Gate'
+description: 'Verify SSL certificate expiry, DNS records (A/AAAA/MX/SPF/DMARC), and domain health in CI via thenetworktools.com.'
+author: 'The Network Tools'
+branding:
+  icon: 'shield'
+  color: 'blue'
+inputs:
+  domain:
+    description: 'Target domain to audit (e.g. example.com)'
+    required: true
+  min_ssl_days:
+    description: 'Minimum remaining TLS certificate validity in days'
+    required: false
+    default: '14'
+  require:
+    description: 'Comma-separated checks to require (A, MX, SPF, DMARC)'
+    required: false
+    default: 'A,MX'
+  api_key:
+    description: 'Optional thenetworktools.com Pro API key (ntk_...) for full /api/v1/ci server-side gate'
+    required: false
+    default: ''
+  unknown:
+    description: 'When using api_key, whether inconclusive checks fail (fail|ignore)'
+    required: false
+    default: 'fail'
+outputs:
+  passed:
+    description: 'true if all checks passed, false otherwise'
+  report_url:
+    description: 'Live audit report URL on thenetworktools.com'
+  badge_url:
+    description: 'Live SVG security badge URL on thenetworktools.com'
+runs:
+  using: 'node20'
+  main: 'index.mjs'
